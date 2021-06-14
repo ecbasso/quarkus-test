@@ -9,6 +9,11 @@ import javax.inject.Singleton
 
 @Singleton
 class MyObjectMapperCustomizer : ObjectMapperCustomizer {
+
+    init {
+        println("Detected ObjectMapperCustomizer = [${javaClass.canonicalName}]")
+    }
+
     override fun customize(objectMapper: ObjectMapper) {
         objectMapper
             .disable(FAIL_ON_UNKNOWN_PROPERTIES)

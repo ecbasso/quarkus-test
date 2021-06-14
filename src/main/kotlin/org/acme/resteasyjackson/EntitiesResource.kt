@@ -2,6 +2,7 @@ package org.acme.resteasyjackson
 
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 import kotlin.random.Random
 
 @Path("/entities")
@@ -24,8 +25,8 @@ class EntitiesResource {
     ): Any? = entities.find { entity -> entity.id == id }?.map(summary = summary) ?: throw NotFoundException()
 
     @GET
-    fun list(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): List<Any> =
-        entities.map { entity -> entity.toDTO() }
+    fun list(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): Response =
+        Response.ok(if (summary) entities.map { it.toSummaryDTO() }.toTypedArray() else entities.map { it.toDTO() }.toTypedArray()).build()
 
     @POST
     fun add(entity: EntityDTO): List<Any> {
