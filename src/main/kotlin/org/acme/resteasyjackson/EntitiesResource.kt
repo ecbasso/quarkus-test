@@ -23,8 +23,13 @@ class EntitiesResource {
         @PathParam(ID_PATH_PARAM) id: String,
         @QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = false
     ): Any? = entities.find { entity -> entity.id == id }?.map(summary = summary) ?: throw NotFoundException()
+    
+    @GET
+    @Path("/v1")
+    fun list(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): List<Any> = entities.mappedAsDTO(summary)
 
     @GET
+    @Path("/v2")
     fun list(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): Response =
         Response.ok(if (summary) entities.map { it.toSummaryDTO() }.toTypedArray() else entities.map { it.toDTO() }.toTypedArray()).build()
 
