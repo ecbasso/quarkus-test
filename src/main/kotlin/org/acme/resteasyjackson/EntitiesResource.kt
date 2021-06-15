@@ -26,11 +26,11 @@ class EntitiesResource {
     
     @GET
     @Path("/v1")
-    fun list(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): List<Any> = entities.mappedAsDTO(summary)
+    fun listv1(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): List<Any> = entities.mappedAsDTO(summary)
 
     @GET
     @Path("/v2")
-    fun list(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): Response =
+    fun listv2(@QueryParam(SUMMARY_QUERY_PARAM) summary: Boolean = true): Response =
         Response.ok(if (summary) entities.map { it.toSummaryDTO() }.toTypedArray() else entities.map { it.toDTO() }.toTypedArray()).build()
 
     @POST
